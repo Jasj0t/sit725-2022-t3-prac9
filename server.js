@@ -57,7 +57,7 @@ app.use(express.urlencoded({extends: false}));
 //     res.json({statusCode: 200, data: result, message: 'Success'})
 // })
 
-var port = process.env.port || 1337;
+var port = process.env.port || 1336;
 
 app.listen(port,()=>{
     console.log("App listening to: http://localhost:"+port)
