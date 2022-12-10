@@ -1,30 +1,54 @@
-const cardList = [
-        {
-            title: "Meta 2",
-            image: "images/index1.jpg",
-            link: "About Meta 2",
-            desciption: "Demo desciption about meta 2"
-        },
-        {
-            title: "Meta 3",
-            image: "images/index.jpg",
-            link: "About Meta 3",
-            desciption: "Demo desciption about meta 3"
-        }
-    ]
+// const cardList = [
+//         {
+//             title: "Meta 2",
+//             image: "images/index1.jpg",
+//             link: "About Meta 2",
+//             desciption: "Demo desciption about meta 2"
+//         },
+//         {
+//             title: "Meta 3",
+//             image: "images/index.jpg",
+//             link: "About Meta 3",
+//             desciption: "Demo desciption about meta 3"
+//         }
+//     ]
+const getProjects = () => {
+    $.get('/api/projects',(response) => {
+        if(response.statusCode==200){
+            addCards(response.data);
+        }
+    })
+}
+
+
     const clickMe = () => {
         alert("This is a demo to week 3 practical")
     }
     
     const submitForm = () => {
         let formData = {};
-        formData.first_name = $('#first_name').val();
-        formData.last_name = $('#last_name').val();
-        formData.password = $('#password').val();
-        formData.email = $('#email').val();
+        formData.title = $('#title').val();
+        formData.image = $('#image').val();
+        formData.link = $('#link').val();
+        formData.description = $('#description').val();
     
         console.log("Form Data Submitted: ", formData);
+    addProjectToApp(formData);
     }
+
+//Ajax function
+const addProjectToApp = (project) => {
+        $.ajax({
+            url: '/api/projects',
+            data: project,
+            type: 'POST',
+            success: (result) => {
+                alert(result.message);
+                location.reload(); // it automatically reloads the page 
+            }
+        })
+    }
+    
     
     const addCards = (items) => {
         items.forEach(item => {
@@ -43,11 +67,12 @@ const cardList = [
     
     
     $(document).ready(function(){
-        $('.materialboxed').materialbox();
-        $('#formSubmit').click(()=>{
-            submitForm();
-        })
-        addCards(cardList);
-        $('.modal').modal();
-      });
+        $('.materialboxed').materialbox();
+        $('#formSubmit').click(()=>{
+            submitForm();
+        })
+        getProjects();
+        $('.modal').modal();
+      });
+    
     
