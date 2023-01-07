@@ -1,3 +1,4 @@
-module.exports = {
-    projectController: require('./projectController')
+module.exports={
+    projectController: require('./projectController'),
+    userController: require('./userController') 
 }
