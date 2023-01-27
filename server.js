@@ -3,6 +3,8 @@ var app = express()
 var cors = require('cors')
 let dbConnect = require("./dbConnect"); 
 let projectRoutes = require("./routes/projectRoutes"); 
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 // let projectCollection; 
 
 app.use(express.static(__dirname+'/public'))
@@ -11,6 +13,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 app.use('/api/projects', projectRoutes)
 
+
+  
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+  
+      console.log('user disconnected');
+    });
+    setInterval(()=>{
+  
+      socket.emit('number', parseInt(Math.random()*10));
+  
+    }, 1000);
+}, 1000);
 // //mongoDb connection...
 // const MongoClient = require('mongodb').MongoClient; 
 // const uri = 'mongodb+srv://abatool:amna@cluster0.xnvxmni.mongodb.net/?retryWrites=true&w=majority'
@@ -65,8 +81,8 @@ app.use('/api/projects', projectRoutes)
 //     })
 // })
 
-var port = process.env.port || 1337;
-app.listen(port,()=>{
+var port = process.env.port || 3000;
+http.listen(port,()=>{
     console.log("App listening to http://localhost:"+port)
     //createCollection('Pets')
 })

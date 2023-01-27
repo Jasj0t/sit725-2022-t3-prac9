@@ -12,7 +12,10 @@
 //         desciption: "Demo desciption about Virtual Reality"
 //     }
 // ]
-
+let socket = io();
+socket.on('number', (msg) => {
+    console.log('Random number: ' + msg);
+}) 
 const getProjects = () => {
     $.get('/api/projects',(response) => {
         if(response.statusCode==200){
